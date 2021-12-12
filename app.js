@@ -1,4 +1,8 @@
 const express = require("express");
+
+// Configuring third party packages
+const bodyparser = require("body-parser");
+bodyparser.urlencoded({ extended: true });
 const env = require("dotenv");
 env.config();
 
