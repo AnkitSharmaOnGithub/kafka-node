@@ -13,9 +13,19 @@ exports.createMessage = async (req, res, next) => {
         });
       }
       const result = await producer.produceData("jersey", data, 1);
-      console.log(result);
+      if (result[0].hasOwnProperty("errorCode") && result[0].errorCode == 0) {
+        console.log(result);
+        res.status(200).json({
+          message: "Message created successfully",
+        });
+      }
+      else{
+        throw new Error('Some error occured');
+      }
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      error: error.message,
+    });
   }
 };
