@@ -1,12 +1,12 @@
 const express = require("express");
+const app = express();
 
 // Configuring third party packages
 const bodyparser = require("body-parser");
-bodyparser.urlencoded({ extended: true });
+app.use(bodyparser.urlencoded({ extended: true }));
+
 const env = require("dotenv");
 env.config();
-
-const app = express();
 
 // Configure routes
 const messagesRoutes = require("./routes/message");
