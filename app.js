@@ -14,10 +14,19 @@ app.use("/message", messagesRoutes);
 
 // Import in app dependencies
 const sequelize = require("./utils/database");
+const producer = require("./kafka/producer");
+const consumer = require("./kafka/consumer");
+
+// Start kafka consumer and producer
+try {
+  consumer.consumerConnect("jersey");
+} catch (error) {
+  console.log(error);
+}
 
 // Syncing sequelize models with the database
 sequelize
-  .sync()
+  .sync({ logging: true })
   .then((result) => {
     // Setting up listener to listen on port
     app.listen(process.env.PORT, () => {
