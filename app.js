@@ -10,7 +10,9 @@ env.config();
 
 // Configure routes
 const messagesRoutes = require("./routes/message");
+const kafkaRoutes = require("./routes/kafka");
 app.use("/message", messagesRoutes);
+app.use("/kafka", kafkaRoutes);
 
 // Import in app dependencies
 const sequelize = require("./utils/database");
