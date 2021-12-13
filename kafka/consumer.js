@@ -1,3 +1,4 @@
+const sequelize = require("../utils/database");
 const kafka = require("./kafka-instance");
 const consumer = kafka.consumer({ groupId: "kafka-one" });
 
@@ -12,8 +13,22 @@ async function consumerConnect(topicName, fromBeginning = false) {
         value: message.value.toString(),
         headers: message.headers,
       });
+      sequelize
+        .query(
+          `
+        INSERT INTO messages(kafka_key,message) VALUES('${message.key.toString()}','${message.value.toString()}')
+      `
+        )
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   });
 }
 
-module.exports = consumerConnect;
+module.exports = {
+  consumerConnect: consumerConnect,
+};
